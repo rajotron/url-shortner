@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  font-family: poiret, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "poiret";
+  src: local("poiret"), url("./fonts/PoiretOne-Regular.ttf") format("truetype");
+}
