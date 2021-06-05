@@ -11,6 +11,12 @@ import React, { useEffect, useState } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import styled from 'styled-components';
 import axios from "axios";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 import { GradientDiv } from "../../styles/common";
 const API_URL = "http://localhost:8080/api/urls";
@@ -170,7 +176,35 @@ useEffect(() => {
 <PerfectScrollbar>
   <div style={{maxHeight: "50vh"}}>
        </div></PerfectScrollbar>
-      </GradientDiv>
+      </GradientDiv>  <br />
+      <br />
+    {allData.length > 0 &&  <GradientDiv>
+      <div><span className={'gradient1-text'} style={{fontSize:43}}>Records available : {allData.length}</span></div><br/>
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Original URL</TableCell>
+            <TableCell align="right">Key</TableCell>
+            <TableCell align="right">Expiry Date</TableCell>
+            <TableCell align="right">Short URL</TableCell>
+            <TableCell align="right">Created At</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {allData.map((row:any) => (
+            <TableRow key={row?.postFix}>
+              <TableCell component="th" scope="row">
+                {row?.originalUrl}
+              </TableCell>
+              <TableCell align="right">{row.postFix}</TableCell>
+              <TableCell align="right">{row.expiryDate}</TableCell>
+              <TableCell align="right">{row.shortUrl}</TableCell>
+              <TableCell align="right">{row.createdAt}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      </GradientDiv>}
     </>
   );
 };

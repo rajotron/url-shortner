@@ -26,6 +26,6 @@ export const Header = () =>{
 <img style={{ height: '70px', width:'auto'}} src={logo2} alt="logo" />
 
         </LogoDiv>
-        <div style={{fontSize: '66px'}}>URL SHORTNER</div>
+        <div style={{fontSize: '66px', paddingRight:'154px'}}>URL SHORTNER</div>
     </MainDiv>)
 } 
