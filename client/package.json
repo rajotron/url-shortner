@@ -1,5 +1,5 @@
 {
-  "name": "testing_lambda",
+  "name": "url_shortner",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -25,7 +25,6 @@
     "@types/react-icons": "^3.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.9",
-    "aws-lambda": "^1.0.6",
     "aws-multipart-parser": "^0.2.1",
     "axios": "^0.21.1",
     "csvtojson": "^2.0.10",
@@ -69,8 +68,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "netlify-lambda": "^2.0.3"
   }
 }

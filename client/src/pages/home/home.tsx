@@ -1,24 +1,21 @@
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
-import { Button, Snackbar, TextField } from "@material-ui/core";
-import { Brightness3, Brightness7 } from "@material-ui/icons";
-import { Alert, AlertTitle } from '@material-ui/lab';
-import {
-  DateTimePicker,
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from '@material-ui/pickers';
-import React, { useEffect, useState } from "react";
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import styled from 'styled-components';
-import axios from "axios";
+import { Button, CircularProgress, Snackbar, TextField } from "@material-ui/core";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
+import { Alert, AlertTitle } from '@material-ui/lab';
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider
+} from '@material-ui/pickers';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import styled from 'styled-components';
 import { GradientDiv } from "../../styles/common";
+
 const API_URL = "http://localhost:8080/api/urls";
 
 
@@ -29,12 +26,18 @@ width: 400px;
     margin: 40px !important;
     padding: 13px !important;
 `
+const OutputDiv = styled.div`
+font-size: 23px;
+    margin: 46px;
+    font-weight: bold;
+`
 
 export const Home = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [response, setResponse] = useState('')
   const [responseStatus, setResponseStatus] = useState<String | null>(null)
+  const [output, setOutput] = useState(null)
 const [allData, setAllData] = useState([])
 
 useEffect(() => {
@@ -64,6 +67,7 @@ useEffect(() => {
       console.log("Res - ", res);
       setIsSubmitting(false);
       setResponse(res.data.message)
+      setOutput(res.data.data.shortUrl)
       setResponseStatus('success')
       setOpen(true);
     
@@ -85,16 +89,6 @@ useEffect(() => {
   
   }, [response]);
 
-  const [collapse, setCollapse] = useState(false);
-  const toggleCollapse = () => {
-    setCollapse(!collapse);
-  };
-  const [dataTypes, setDataTypes] = useState(false);
-  const toggleDataTypes = () => {
-    setDataTypes(!dataTypes);
-  };
-  const [theme, setTheme] = useState(true);
-  const icon = !theme ? <Brightness7 /> : <Brightness3 />;
   const [open, setOpen] = React.useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [originalUrl, setOriginalUrl] = useState('');
@@ -111,6 +105,7 @@ useEffect(() => {
     setOpen(false);
     setResponse('')
       setResponseStatus(null)
+      
   };
 
   
@@ -172,7 +167,8 @@ useEffect(() => {
     
       <GradientDiv style={{ overflow: "hidden" }}>
         <div><span className={'gradient1-text'} style={{fontSize:43}}>Output</span></div>
-       
+        {output && <OutputDiv><a rel="noreferrer" target="_blank" href={`//${output}`}>{output}</a></OutputDiv>}
+      {isSubmitting &&  <div style={{margin:20}}><CircularProgress color="primary" /></div>}
 <PerfectScrollbar>
   <div style={{maxHeight: "50vh"}}>
        </div></PerfectScrollbar>

@@ -12,7 +12,7 @@ color: black;
 font-weight: bold;
 padding-right: 20px;
 z-index: 10;
-background: #dbdbdb59;
+background: #f0f0f0;
 `
 const LogoDiv = styled.div`
 display: flex;
