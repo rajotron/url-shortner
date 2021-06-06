@@ -194,7 +194,7 @@ useEffect(() => {
               </TableCell>
               <TableCell align="right">{row.postFix}</TableCell>
               <TableCell align="right">{row.expiryDate}</TableCell>
-              <TableCell align="right"><a target="_blank" href={"//"+row.shortUrl}>{row.shortUrl}</a></TableCell>
+              <TableCell align="right"><a target="_blank" rel="noreferrer"  href={"//"+row.shortUrl}>{row.shortUrl}</a></TableCell>
               <TableCell align="right">{row.createdAt}</TableCell>
             </TableRow>
           ))}
