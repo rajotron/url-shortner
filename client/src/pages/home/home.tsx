@@ -1,84 +1,88 @@
-import DateFnsUtils from '@date-io/date-fns'; // choose your lib
-import { Button, CircularProgress, Snackbar, TextField } from "@material-ui/core";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import {
+  Button,
+  CircularProgress,
+  InputLabel,
+  MenuItem,
+  Select,
+  Snackbar,
+  TextField,
+} from "@material-ui/core";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import {
   KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from '@material-ui/pickers';
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import styled from 'styled-components';
+import PerfectScrollbar from "react-perfect-scrollbar";
+import styled from "styled-components";
 import { GradientDiv } from "../../styles/common";
 
 const API_URL = "http://localhost:8080/api/urls";
 
-
 const CustomBtn = styled(Button)`
-width: 400px;
-    font-size: 20px !important;
-    background-color: #e1eef4 !important;
-    margin: 40px !important;
-    padding: 13px !important;
-`
+  width: 400px;
+  font-size: 20px !important;
+  background-color: #e1eef4 !important;
+  margin: 40px !important;
+  padding: 13px !important;
+`;
 const OutputDiv = styled.div`
-font-size: 23px;
-    margin: 46px;
-    font-weight: bold;
-`
+  font-size: 23px;
+  margin: 46px;
+  font-weight: bold;
+`;
 
 export const Home = () => {
-  
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [response, setResponse] = useState('')
-  const [responseStatus, setResponseStatus] = useState<String | null>(null)
-  const [output, setOutput] = useState(null)
-const [allData, setAllData] = useState([])
+  const [response, setResponse] = useState("");
+  const [responseStatus, setResponseStatus] = useState<String | null>(null);
+  const [output, setOutput] = useState(null);
+  const [allData, setAllData] = useState([]);
 
-useEffect(() => {
-  axios.get(
-    API_URL+ `/`
-  ).then((res)=>{
-    console.log('All data fetched : ', res.data)
-    setAllData(res.data)
-  })
-
-
-}, [response]);
-
+  useEffect(() => {
+    axios.get(API_URL + `/`).then((res) => {
+      console.log("All data fetched : ", res.data);
+      setAllData(res.data);
+    });
+  }, [response]);
 
   const onSubmit = async () => {
-   
     try {
       setIsSubmitting(true);
-   const data = {
-     originalUrl, postFixTerm, expiryDate:selectedDate
-   }
-   console.log('Data - ', data)
-      const res: any = await axios.post(
-        API_URL+ `/`,
-        data
-      );
+      const data = {
+        originalUrl,
+        postFixTerm,
+        expiryDate: selectedDate,
+        isProtected,
+        password
+      };
+      console.log("Data - ", data);
+      const res: any = await axios.post(API_URL + `/`, data);
       console.log("Res - ", res);
       setIsSubmitting(false);
-      setResponse(res.data.message)
-      setOutput(res.data.data.shortUrl)
-      setResponseStatus('success')
+      setResponse(res.data.message);
+     if(res.data.data){ setOutput(res.data.data.shortUrl);
+      setResponseStatus("success");}
+      else{
+       
+      setResponseStatus("error");
+      }
       setOpen(true);
-    
     } catch (error) {
       setOpen(true);
       if (error.errors) {
       }
       setIsSubmitting(false);
-      
-      setResponse(error.message)
-      setResponseStatus('error')
+
+      setResponse(error.message);
+      setResponseStatus("error");
     }
   };
 
@@ -86,121 +90,222 @@ useEffect(() => {
     if (response) {
       setIsSubmitting(false);
     }
-  
   }, [response]);
 
   const [open, setOpen] = React.useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [originalUrl, setOriginalUrl] = useState('');
-  const [postFixTerm, setPostFixTerm] = useState('');
-  const handleDateChange = (event:any) => {
-    console.log(event)
+  const [originalUrl, setOriginalUrl] = useState("");
+  const [postFixTerm, setPostFixTerm] = useState("");
+  const [isProtected, setIsProtected] = useState<Boolean>(false);
+  const [password, setPassword] = useState("");
+  const handleDateChange = (event: any) => {
+    console.log(event);
     setSelectedDate(event);
   };
-  const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
+  const handleSnackbarClose = (
+    event?: React.SyntheticEvent,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
-    setResponse('')
-      setResponseStatus(null)
-      
+    setResponse("");
+    setResponseStatus(null);
   };
-
-  
 
   return (
     <>
-    {
-      responseStatus && ( <Snackbar open={open} autoHideDuration={100000} onClose={handleSnackbarClose}>
-<Alert onClose={handleSnackbarClose} severity={responseStatus === 'error' ? "error" : "success"}>
-<AlertTitle>{responseStatus==='error' ? "Error" : "Success"}</AlertTitle>
-{responseStatus === 'error' ? <><strong>{response}</strong></>  : <><strong>{response}</strong></>}
-  </Alert></Snackbar>
-
-      )
-    }
-      {" "}
+      {responseStatus && (
+        <Snackbar
+          open={open}
+          autoHideDuration={100000}
+          onClose={handleSnackbarClose}
+        >
+          <Alert
+            onClose={handleSnackbarClose}
+            severity={responseStatus === "error" ? "error" : "success"}
+          >
+            <AlertTitle>
+              {responseStatus === "error" ? "Error" : "Success"}
+            </AlertTitle>
+            {responseStatus === "error" ? (
+              <>
+                <strong>{response}</strong>
+              </>
+            ) : (
+              <>
+                <strong>{response}</strong>
+              </>
+            )}
+          </Alert>
+        </Snackbar>
+      )}{" "}
       <GradientDiv>
-      <div><span className={'gradient1-text'} style={{fontSize:43}}>Intput</span></div>
-      <TextField
-          style={{    width: '95%',margin: '31px',  marginBottom:'15px'}}
+        <div>
+          <span className={"gradient1-text"} style={{ fontSize: 43 }}>
+            Intput
+          </span>
+        </div>
+        <TextField
+          style={{ width: "95%", margin: "31px", marginBottom: "15px" }}
           label="Original URL"
-          placeholder={'Type your url here ...'}
+          placeholder={"Type your url here ..."}
           variant="outlined"
           value={originalUrl}
-          onChange={(e)=>{setOriginalUrl(e.target.value)}}
-          id="mui-theme-provider-outlined-input"
-        />
-        <div style={{display: 'flex',justifyContent: 'space-between', paddingBottom: '31px'}}>
-         <TextField
-          style={{    width: '40%',margin: '31px', marginBottom:'15px'}}
-          label="Key"
-          placeholder={'Type any key/unique term for your short url ...'}
-          variant="outlined"
-          value={postFixTerm}
-          onChange={(e)=>{setPostFixTerm(e.target.value)}}
-          id="mui-theme-provider-outlined-input"
-        />
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-    
-        <KeyboardDatePicker
-          margin="normal"
-          style={{    width: '40%',margin: '31px', marginBottom:'15px'}}
-          id="date-picker-dialog"
-          label="Date picker dialog"
-          format="MM/dd/yyyy"
-          value={selectedDate}
-          onChange={handleDateChange}
-          inputVariant='outlined'
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
+          onChange={(e) => {
+            setOriginalUrl(e.target.value);
           }}
+          id="mui-theme-provider-outlined-input"
         />
-    </MuiPickersUtilsProvider>
-    </div>
-    <CustomBtn onClick={onSubmit}>Generate Short URL</CustomBtn>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            paddingBottom: "31px",
+          }}
+        >
+          <TextField
+            style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
+            label="Key"
+            placeholder={"Type any key/unique term for your short url ..."}
+            variant="outlined"
+            value={postFixTerm}
+            onChange={(e) => {
+              setPostFixTerm(e.target.value);
+            }}
+            id="mui-theme-provider-outlined-input"
+          />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              margin="normal"
+              style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
+              id="date-picker-dialog"
+              label="Date picker dialog"
+              format="MM/dd/yyyy"
+              value={selectedDate}
+              onChange={handleDateChange}
+              inputVariant="outlined"
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            paddingBottom: "31px",
+          }}
+        >
+          <div style={{width: '43%'}}>
+          <InputLabel id="demo-simple-select-outlined-label">Password Protected</InputLabel>
+            <Select
+             style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
+             labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          variant="outlined"
+          value={isProtected}
+          onChange={(e) => {
+            const convertedBooleanKey = e.target.value === 'true' ? true : false
+            setIsProtected(convertedBooleanKey);
+          }}
+        
+          disabled={password.trim().length !== 0}
+        >
+         
+   
+          <MenuItem value={'true'}>Yes</MenuItem>
+          <MenuItem value={'false'}>No</MenuItem>
+        </Select>
+            </div> 
+      
+
+       {isProtected &&   <TextField
+            style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
+            label="Password"
+            placeholder={"Type password ..."}
+            variant="outlined"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            id="mui-theme-provider-outlined-input"
+          />
+      }
+        </div>
+        <CustomBtn onClick={onSubmit}>Generate Short URL</CustomBtn>
       </GradientDiv>
       <br />
       <br />
-    
       <GradientDiv style={{ overflow: "hidden" }}>
-        <div><span className={'gradient1-text'} style={{fontSize:43}}>Output</span></div>
-        {output && <OutputDiv><a rel="noreferrer" target="_blank" href={`//${output}`}>{output}</a></OutputDiv>}
-      {isSubmitting &&  <div style={{margin:20}}><CircularProgress color="primary" /></div>}
-<PerfectScrollbar>
-  <div style={{maxHeight: "50vh"}}>
-       </div></PerfectScrollbar>
-      </GradientDiv>  <br />
+        <div>
+          <span className={"gradient1-text"} style={{ fontSize: 43 }}>
+            Output
+          </span>
+        </div>
+        {output && (
+          <OutputDiv>
+            <a rel="noreferrer" target="_blank" href={`//${output}`}>
+              {output}
+            </a>
+          </OutputDiv>
+        )}
+        {isSubmitting && (
+          <div style={{ margin: 20 }}>
+            <CircularProgress color="primary" />
+          </div>
+        )}
+        <PerfectScrollbar>
+          <div style={{ maxHeight: "50vh" }}></div>
+        </PerfectScrollbar>
+      </GradientDiv>{" "}
       <br />
-    {allData.length > 0 &&  <GradientDiv>
-      <div><span className={'gradient1-text'} style={{fontSize:43}}>Records available : {allData.length}</span></div><br/>
-      <Table aria-label="simple table">
-        <TableHead style={{background: '#eaf8fc'}}>
-          <TableRow>
-            <TableCell>Original URL</TableCell>
-            <TableCell align="right">Key</TableCell>
-            <TableCell align="right">Expiry Date</TableCell>
-            <TableCell align="right">Short URL</TableCell>
-            <TableCell align="right">Created At</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {allData.map((row:any) => (
-            <TableRow key={row?.postFix}>
-              <TableCell component="th" scope="row">
-                {row?.originalUrl}
-              </TableCell>
-              <TableCell align="right">{row.postFix}</TableCell>
-              <TableCell align="right">{row.expiryDate}</TableCell>
-              <TableCell align="right"><a target="_blank" rel="noreferrer"  href={"//"+row.shortUrl}>{row.shortUrl}</a></TableCell>
-              <TableCell align="right">{row.createdAt}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      </GradientDiv>}
+      <br />
+      {allData.length > 0 && (
+        <GradientDiv>
+          <div>
+            <span className={"gradient1-text"} style={{ fontSize: 43 }}>
+              Records available : {allData.length}
+            </span>
+          </div>
+          <br />
+          <Table aria-label="simple table">
+            <TableHead style={{ background: "#eaf8fc" }}>
+              <TableRow>
+                <TableCell>Original URL</TableCell>
+                <TableCell align="right">Key</TableCell>
+                <TableCell align="right">Expiry Date</TableCell>
+                <TableCell align="right">Short URL</TableCell>
+                <TableCell align="right">Created At</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {allData.map((row: any) => (
+                <TableRow key={row?.postFix}>
+                  <TableCell component="th" scope="row">
+                    {row?.originalUrl}
+                  </TableCell>
+                  <TableCell align="right">{row.postFix}</TableCell>
+                  <TableCell align="right">{row.expiryDate}</TableCell>
+                  <TableCell align="right">
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href={"//" + row.shortUrl}
+                    >
+                      {row.shortUrl}
+                    </a>
+                  </TableCell>
+                  <TableCell align="right">{row.createdAt}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </GradientDiv>
+      )}
     </>
   );
 };

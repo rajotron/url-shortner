@@ -3,23 +3,35 @@ const URL = db.urls;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Url
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request
-  
+  //Check if Key already exist in DB
+
+  const checkKey = await URL.findOne({
+    where: { postFix: req.body.postFixTerm }, raw:true
+  });
+  if (!checkKey) {
+    res.status(200).send({
+      message:
+        "This key already exist, Please try with anohter key",
+    });
+  }
 
   // Create a Url
-  console.log(req.headers)
+  console.log(req.headers);
   const url = {
     originalUrl: req.body.originalUrl,
     postFix: req.body.postFixTerm,
     expiryDate: req.body.expiryDate ? req.body.expiryDate : null,
-    shortUrl:`${req.headers.host}/${req.body.postFixTerm}`
+    shortUrl: `${req.headers.host}/${req.body.postFixTerm}`,
+    isProtected: req.body.isProtected,
+    password: req.body.password,
   };
 
   // Save Url in the database
   URL.create(url)
     .then((data) => {
-      res.send({data, message:'Short link is generated successfully !!!'});
+      res.send({ data, message: "Short link is generated successfully !!!" });
     })
     .catch((err) => {
       res.status(500).send({
@@ -30,18 +42,19 @@ exports.create = (req, res) => {
 
 // Retrieve all Urls from the database.
 exports.findAll = (req, res) => {
-  try{URL.findAll({})
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving Urls.",
+  try {
+    URL.findAll({ attributes: { exclude: ["password"] } })
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving Urls.",
+        });
       });
-    });}
-    catch(e){
-      console.log(e)
-    }
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 // Find a single Url with an id
@@ -50,7 +63,7 @@ exports.findOne = (req, res) => {
 
   URL.findOne({ where: { id } })
     .then((data) => {
-      console.log('Data ---- ', data)
+      console.log("Data ---- ", data);
       res.send(data);
     })
     .catch((err) => {
@@ -106,22 +119,6 @@ exports.delete = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: "Could not delete Url with id=" + id,
-      });
-    });
-};
-
-// Delete all Urls from the database.
-exports.deleteAll = (req, res) => {
-  URL.destroy({
-    where: {},
-    truncate: false,
-  })
-    .then((nums) => {
-      res.send({ message: `${nums} Urls were deleted successfully!` });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while removing all Urls.",
       });
     });
 };

@@ -2,19 +2,26 @@ module.exports = (sequelize, Sequelize) => {
   const Urls = sequelize.define("urls", {
     originalUrl: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     shortUrl: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
-    postFix:{
+    postFix: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     expiryDate: {
-      type: Sequelize.DATE
-    }
+      type: Sequelize.DATE,
+    },
+    isProtected: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
+    password: {
+      type: Sequelize.STRING,
+    },
   });
 
   return Urls;
