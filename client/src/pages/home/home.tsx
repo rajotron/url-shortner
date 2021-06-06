@@ -177,7 +177,7 @@ useEffect(() => {
     {allData.length > 0 &&  <GradientDiv>
       <div><span className={'gradient1-text'} style={{fontSize:43}}>Records available : {allData.length}</span></div><br/>
       <Table aria-label="simple table">
-        <TableHead>
+        <TableHead style={{background: '#eaf8fc'}}>
           <TableRow>
             <TableCell>Original URL</TableCell>
             <TableCell align="right">Key</TableCell>
@@ -194,7 +194,7 @@ useEffect(() => {
               </TableCell>
               <TableCell align="right">{row.postFix}</TableCell>
               <TableCell align="right">{row.expiryDate}</TableCell>
-              <TableCell align="right">{row.shortUrl}</TableCell>
+              <TableCell align="right"><a target="_blank" href={"//"+row.shortUrl}>{row.shortUrl}</a></TableCell>
               <TableCell align="right">{row.createdAt}</TableCell>
             </TableRow>
           ))}
