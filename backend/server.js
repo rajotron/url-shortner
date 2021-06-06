@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
 
 app.use(express.static(__dirname + '/public'));
 const pageNotFound = path.join(__dirname, '/public/404.html');
+const linkExpired = path.join(__dirname, '/public/expired.html');
 // Redirecting to the originalUrl
 app.get('/:id', async (req, res, next) => {
   const { id: postFixTerm } = req.params;
@@ -36,8 +37,11 @@ app.get('/:id', async (req, res, next) => {
     const url = await URL.findOne({where:{ postFix : postFixTerm }});
     
     if (url) {
-      const {originalUrl} = url
+      const {originalUrl, expiryDate} = url
       console.log('Searching url by key -- ', originalUrl)
+      if(new Date(expiryDate) < (new Date())){
+        return res.status(404).sendFile(linkExpired); 
+      }
       return res.status(301).redirect(originalUrl.includes('http') ? originalUrl :  "//"+originalUrl);
     }
     return res.status(404).sendFile(pageNotFound);
