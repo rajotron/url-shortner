@@ -4,6 +4,10 @@ This application can be used to convert any url into your own password protected
 
 ![image](https://user-images.githubusercontent.com/26489347/121045022-4aafe380-c7d3-11eb-8f5c-6e89dbf28c22.png)
 
+### Features
+1. Password Protected - You can set your own password for any url, when you will try to reach that short url it will ask you for password, when verified only then it will redirect to the original URL
+
+
 ## Installation
 
 ### For UI
