@@ -252,7 +252,7 @@ export const Home = () => {
         </div>
         {output && (
           <OutputDiv>
-            <a rel="noreferrer" target="_blank" href={`//${output}`}>
+            <a rel="noreferrer" target="_blank" href={`http://${output}`}>
               {output}
             </a>
           </OutputDiv>
@@ -301,7 +301,7 @@ export const Home = () => {
                     <a
                       target="_blank"
                       rel="noreferrer"
-                      href={"//" + row.shortUrl}
+                      href={"http://" + row.shortUrl}
                     >
                       {row.shortUrl}
                     </a>
