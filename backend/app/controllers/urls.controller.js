@@ -8,18 +8,16 @@ exports.create = async (req, res) => {
   //Check if Key already exist in DB
 
   const checkKey = await URL.findOne({
-    where: { postFix: req.body.postFixTerm }, raw:true
+    where: { postFix: req.body.postFixTerm },
+    raw: true,
   });
-  console.log('Check key ------- ', checkKey)
   if (checkKey !== null) {
     return res.status(200).send({
-      message:
-        "This key already exist, Please try with anohter key",
+      message: "This key already exist, Please try with anohter key",
     });
   }
 
   // Create a Url
-  console.log(req.headers);
   const url = {
     originalUrl: req.body.originalUrl,
     postFix: req.body.postFixTerm,
@@ -53,9 +51,7 @@ exports.findAll = (req, res) => {
           message: err.message || "Some error occurred while retrieving Urls.",
         });
       });
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 // Find a single Url with an id
@@ -64,7 +60,6 @@ exports.findOne = (req, res) => {
 
   URL.findOne({ where: { id } })
     .then((data) => {
-      console.log("Data ---- ", data);
       res.send(data);
     })
     .catch((err) => {

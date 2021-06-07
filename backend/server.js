@@ -33,13 +33,11 @@ const authenticationPage = path.join(__dirname, "/public/password.html");
 // Redirecting to the originalUrl
 app.get("/:id", async (req, res, next) => {
   const { id: postFixTerm } = req.params;
-  console.log("Key ---- ", postFixTerm);
   try {
     const url = await URL.findOne({ where: { postFix: postFixTerm } });
 
     if (url) {
       const { originalUrl, expiryDate, isProtected } = url;
-      console.log("Searching url by key -- ", originalUrl);
       if (!isProtected) {
         if (new Date(expiryDate) < new Date()) {
           return res.status(404).sendFile(linkExpired);
@@ -63,7 +61,6 @@ app.get("/:id", async (req, res, next) => {
 app.post("/:id", async (req, res, next) => {
   const { id: postFixTerm } = req.params;
   const { password: inputPassword } = req.body;
-  console.log("Key ---- ", postFixTerm);
   try {
     const url = await URL.findOne({ where: { postFix: postFixTerm } });
 
@@ -73,15 +70,10 @@ app.post("/:id", async (req, res, next) => {
       if (new Date(expiryDate) < new Date()) {
         return res.status(404).sendFile(linkExpired);
       }
-      console.log("Passwords ----- ", inputPassword, password);
       if (inputPassword === password) {
-        return res
-          .status(200)
-          .send({
-            url: originalUrl.includes("http")
-              ? originalUrl
-              : "//" + originalUrl,
-          });
+        return res.status(200).send({
+          url: originalUrl.includes("http") ? originalUrl : "//" + originalUrl,
+        });
       } else {
         return res.status(400).send({
           message: "Wrong Password",
@@ -98,6 +90,4 @@ require("./app/routes/urls.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+app.listen(PORT, () => {});

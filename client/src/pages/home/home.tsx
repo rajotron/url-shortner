@@ -14,17 +14,13 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import {
-  DateTimePicker,
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import styled from "styled-components";
 import { GradientDiv } from "../../styles/common";
-import moment from 'moment';
 
 const API_URL = "http://localhost:8080/api/urls";
 
@@ -50,7 +46,6 @@ export const Home = () => {
 
   useEffect(() => {
     axios.get(API_URL + `/`).then((res) => {
-      console.log("All data fetched : ", res.data);
       setAllData(res.data);
     });
   }, [response]);
@@ -63,18 +58,16 @@ export const Home = () => {
         postFixTerm,
         expiryDate: selectedDate,
         isProtected,
-        password
+        password,
       };
-      console.log("Data - ", data);
       const res: any = await axios.post(API_URL + `/`, data);
-      console.log("Res - ", res);
       setIsSubmitting(false);
       setResponse(res.data.message);
-     if(res.data.data){ setOutput(res.data.data.shortUrl);
-      setResponseStatus("success");}
-      else{
-       
-      setResponseStatus("error");
+      if (res.data.data) {
+        setOutput(res.data.data.shortUrl);
+        setResponseStatus("success");
+      } else {
+        setResponseStatus("error");
       }
       setOpen(true);
     } catch (error) {
@@ -101,7 +94,6 @@ export const Home = () => {
   const [isProtected, setIsProtected] = useState<Boolean>(false);
   const [password, setPassword] = useState("");
   const handleDateChange = (event: any) => {
-    console.log(event);
     setSelectedDate(event);
   };
   const handleSnackbarClose = (
@@ -180,14 +172,14 @@ export const Home = () => {
             id="postFixTerm"
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <DateTimePicker
-          style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
-        label="DateTimePicker"
-        inputVariant="outlined"
-        format="MMMM d, yyyy hh:mm a"
-        value={selectedDate}
-        onChange={handleDateChange}
-      />
+            <DateTimePicker
+              style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
+              label="DateTimePicker"
+              inputVariant="outlined"
+              format="MMMM d, yyyy hh:mm a"
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
           </MuiPickersUtilsProvider>
         </div>
         <div
@@ -197,41 +189,41 @@ export const Home = () => {
             paddingBottom: "31px",
           }}
         >
-          <div style={{width: '43%'}}>
-          <InputLabel id="demo-simple-select-outlined-label">Password Protected</InputLabel>
+          <div style={{ width: "43%" }}>
+            <InputLabel id="demo-simple-select-outlined-label">
+              Password Protected
+            </InputLabel>
             <Select
-             style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
-             labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          variant="outlined"
-          value={isProtected}
-          onChange={(e) => {
-            const convertedBooleanKey = e.target.value === 'true' ? true : false
-            setIsProtected(convertedBooleanKey);
-          }}
-        
-          disabled={password.trim().length !== 0}
-        >
-         
-   
-          <MenuItem value={'true'}>Yes</MenuItem>
-          <MenuItem value={'false'}>No</MenuItem>
-        </Select>
-            </div> 
-      
+              style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              variant="outlined"
+              value={isProtected}
+              onChange={(e) => {
+                const convertedBooleanKey =
+                  e.target.value === "true" ? true : false;
+                setIsProtected(convertedBooleanKey);
+              }}
+              disabled={password.trim().length !== 0}
+            >
+              <MenuItem value={"true"}>Yes</MenuItem>
+              <MenuItem value={"false"}>No</MenuItem>
+            </Select>
+          </div>
 
-       {isProtected &&   <TextField
-            style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
-            label="Password"
-            placeholder={"Type password ..."}
-            variant="outlined"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            id="mui-theme-provider-outlined-input"
-          />
-      }
+          {isProtected && (
+            <TextField
+              style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
+              label="Password"
+              placeholder={"Type password ..."}
+              variant="outlined"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              id="mui-theme-provider-outlined-input"
+            />
+          )}
         </div>
         <CustomBtn onClick={onSubmit}>Generate Short URL</CustomBtn>
       </GradientDiv>
@@ -287,7 +279,9 @@ export const Home = () => {
                     {row?.originalUrl}
                   </TableCell>
                   <TableCell align="center">{row.postFix}</TableCell>
-                  <TableCell align="center">{moment(row.expiryDate).format('LLL')}</TableCell>
+                  <TableCell align="center">
+                    {moment(row.expiryDate).format("LLL")}
+                  </TableCell>
                   <TableCell align="left">
                     <a
                       target="_blank"
@@ -297,8 +291,16 @@ export const Home = () => {
                       {row.shortUrl}
                     </a>
                   </TableCell>
-                  <TableCell align="center">{row.isProtected ? <span style={{color:'green'}}>YES</span> : <span style={{color:'red'}}>NO</span>}</TableCell>
-                  <TableCell align="center">{moment(row.createdAt).format('LLL')}</TableCell>
+                  <TableCell align="center">
+                    {row.isProtected ? (
+                      <span style={{ color: "green" }}>YES</span>
+                    ) : (
+                      <span style={{ color: "red" }}>NO</span>
+                    )}
+                  </TableCell>
+                  <TableCell align="center">
+                    {moment(row.createdAt).format("LLL")}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
