@@ -2,6 +2,8 @@
 
 This application can be used to convert any url into your own password protected short url.
 
+<a href="#installation">Installation</a>
+
 ![image](https://user-images.githubusercontent.com/26489347/121045022-4aafe380-c7d3-11eb-8f5c-6e89dbf28c22.png)
 
 ### Features
