@@ -37,18 +37,19 @@ Note: Remember to remove yarn.lock file from root directory before installing it
    ```JS
 
    module.exports = {
-  HOST: HOST_NAME,
-  USER: USER_NAME,
-  PASSWORD: DB_PASSWORD,
-  DB: DB_NAME,
-  dialect: "postgres",
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-}```
+     HOST: HOST_NAME,
+     USER: USER_NAME,
+     PASSWORD: DB_PASSWORD,
+     DB: DB_NAME,
+     dialect: "postgres",
+     pool: {
+       max: 5,
+       min: 0,
+       acquire: 30000,
+       idle: 10000
+     }
+    }
+     ```
 
 Default testing db config is already present there in this config file, but will be deleted after a while.
 _For more examples, please refer to the 
