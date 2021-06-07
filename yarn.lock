@@ -10343,6 +10343,11 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+referral-code-generator@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/referral-code-generator/-/referral-code-generator-1.0.8.tgz#c3aa91e7c6365f2682a632fa479210b1b272d0ae"
+  integrity sha512-6ue9E7aJmKPyxMx4r5A15aG8K2DkP6uQXtvyKl1/m3XINU7w3dZSkGJlpVhIfPi+X/QbkLYOMqCli3GJZxSkNA==
+
 regenerate-unicode-properties@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/regenerate-unicode-properties/-/regenerate-unicode-properties-8.2.0.tgz#e5de7111d655e7ba60c057dbe9ff37c87e65cdec"

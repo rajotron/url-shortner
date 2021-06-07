@@ -13,6 +13,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import { BuildOutlined, Settings } from "@material-ui/icons";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import axios from "axios";
@@ -21,15 +22,25 @@ import React, { useEffect, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import styled from "styled-components";
 import { GradientDiv } from "../../styles/common";
+let referralCodeGenerator = require('referral-code-generator')
+
 
 const API_URL = "http://localhost:8080/api/urls";
 
 const CustomBtn = styled(Button)`
-  width: 400px;
-  font-size: 20px !important;
-  background-color: #e1eef4 !important;
-  margin: 40px !important;
-  padding: 13px !important;
+width: 400px;
+font-size: 17px !important;
+font-weight: bold !important;
+background-color: #5ab1c9 !important;
+margin: 40px !important;
+color: white !important;
+padding: 13px !important;
+`;
+const CustomBtn1 = styled(Button)`
+width: 200px;
+background-color: #ffe1df !important;
+margin-left: 20px !important;
+padding: 17px !important;
 `;
 const OutputDiv = styled.div`
   font-size: 23px;
@@ -160,8 +171,8 @@ export const Home = () => {
             paddingBottom: "31px",
           }}
         >
-          <TextField
-            style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
+         <div   style={{ width: "40%", margin: "31px", marginBottom: "15px" }}>
+         <TextField
             label="Key"
             placeholder={"Type any key/unique term for your short url ..."}
             variant="outlined"
@@ -171,6 +182,10 @@ export const Home = () => {
             }}
             id="postFixTerm"
           />
+          <CustomBtn1 startIcon={<BuildOutlined/>} onClick={()=>{
+            setPostFixTerm(referralCodeGenerator.alpha('lowercase',6));
+          }}>Generate Code</CustomBtn1>
+           </div> 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DateTimePicker
               style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
@@ -225,7 +240,7 @@ export const Home = () => {
             />
           )}
         </div>
-        <CustomBtn onClick={onSubmit}>Generate Short URL</CustomBtn>
+        <CustomBtn startIcon={<Settings/>} onClick={onSubmit}>Generate Short URL</CustomBtn>
       </GradientDiv>
       <br />
       <br />
