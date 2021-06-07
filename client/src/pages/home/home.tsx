@@ -15,6 +15,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import {
+  DateTimePicker,
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
@@ -23,6 +24,7 @@ import React, { useEffect, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import styled from "styled-components";
 import { GradientDiv } from "../../styles/common";
+import moment from 'moment';
 
 const API_URL = "http://localhost:8080/api/urls";
 
@@ -157,7 +159,7 @@ export const Home = () => {
           onChange={(e) => {
             setOriginalUrl(e.target.value);
           }}
-          id="mui-theme-provider-outlined-input"
+          id="url"
         />
         <div
           style={{
@@ -175,22 +177,17 @@ export const Home = () => {
             onChange={(e) => {
               setPostFixTerm(e.target.value);
             }}
-            id="mui-theme-provider-outlined-input"
+            id="postFixTerm"
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              margin="normal"
-              style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
-              id="date-picker-dialog"
-              label="Date picker dialog"
-              format="MM/dd/yyyy"
-              value={selectedDate}
-              onChange={handleDateChange}
-              inputVariant="outlined"
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-            />
+          <DateTimePicker
+          style={{ width: "40%", margin: "31px", marginBottom: "15px" }}
+        label="DateTimePicker"
+        inputVariant="outlined"
+        format="MMMM d, yyyy hh:mm a"
+        value={selectedDate}
+        onChange={handleDateChange}
+      />
           </MuiPickersUtilsProvider>
         </div>
         <div
@@ -276,10 +273,11 @@ export const Home = () => {
             <TableHead style={{ background: "#eaf8fc" }}>
               <TableRow>
                 <TableCell>Original URL</TableCell>
-                <TableCell align="right">Key</TableCell>
-                <TableCell align="right">Expiry Date</TableCell>
-                <TableCell align="right">Short URL</TableCell>
-                <TableCell align="right">Created At</TableCell>
+                <TableCell align="center">Key</TableCell>
+                <TableCell align="center">Expiry Date</TableCell>
+                <TableCell align="center">Short URL</TableCell>
+                <TableCell align="center">Protected</TableCell>
+                <TableCell align="center">Created At</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -288,9 +286,9 @@ export const Home = () => {
                   <TableCell component="th" scope="row">
                     {row?.originalUrl}
                   </TableCell>
-                  <TableCell align="right">{row.postFix}</TableCell>
-                  <TableCell align="right">{row.expiryDate}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">{row.postFix}</TableCell>
+                  <TableCell align="center">{moment(row.expiryDate).format('LLL')}</TableCell>
+                  <TableCell align="left">
                     <a
                       target="_blank"
                       rel="noreferrer"
@@ -299,7 +297,8 @@ export const Home = () => {
                       {row.shortUrl}
                     </a>
                   </TableCell>
-                  <TableCell align="right">{row.createdAt}</TableCell>
+                  <TableCell align="center">{row.isProtected ? <span style={{color:'green'}}>YES</span> : <span style={{color:'red'}}>NO</span>}</TableCell>
+                  <TableCell align="center">{moment(row.createdAt).format('LLL')}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

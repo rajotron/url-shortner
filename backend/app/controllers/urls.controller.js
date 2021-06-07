@@ -10,8 +10,9 @@ exports.create = async (req, res) => {
   const checkKey = await URL.findOne({
     where: { postFix: req.body.postFixTerm }, raw:true
   });
-  if (!checkKey) {
-    res.status(200).send({
+  console.log('Check key ------- ', checkKey)
+  if (checkKey !== null) {
+    return res.status(200).send({
       message:
         "This key already exist, Please try with anohter key",
     });

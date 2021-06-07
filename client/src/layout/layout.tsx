@@ -3,28 +3,29 @@ import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import { Home } from "../pages/home/home";
 
-export const MainLayout = () => {
-  const MainDiv = styled.div`
-  width: 100%;
-  -webkit-box-align: center;
-  top: 118px;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  overflow: overlay;
-  position: relative;
+const MainDiv = styled.div`
+width: 100%;
+-webkit-box-align: center;
+top: 118px;
+display: flex;
+-webkit-box-pack: center;
+-ms-flex-pack: center;
+justify-content: center;
+overflow: overlay;
+position: relative;
 }
-  `;
+`;
 
-  const MiddleSectionDiv = styled.div`
-    max-width: 1200px;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 71px;
-  `;
+const MiddleSectionDiv = styled.div`
+  max-width: 1200px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 71px;
+`;
+export const MainLayout = () => {
+
 
   return (
     <>
