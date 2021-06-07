@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/url-shortner/static/css/main.89404f70.chunk.css",
+    "main.js": "/url-shortner/static/js/main.bf615a40.chunk.js",
+    "main.js.map": "/url-shortner/static/js/main.bf615a40.chunk.js.map",
+    "runtime-main.js": "/url-shortner/static/js/runtime-main.2374c629.js",
+    "runtime-main.js.map": "/url-shortner/static/js/runtime-main.2374c629.js.map",
+    "static/css/2.847a128f.chunk.css": "/url-shortner/static/css/2.847a128f.chunk.css",
+    "static/js/2.b2c86f81.chunk.js": "/url-shortner/static/js/2.b2c86f81.chunk.js",
+    "static/js/2.b2c86f81.chunk.js.map": "/url-shortner/static/js/2.b2c86f81.chunk.js.map",
+    "index.html": "/url-shortner/index.html",
+    "static/css/2.847a128f.chunk.css.map": "/url-shortner/static/css/2.847a128f.chunk.css.map",
+    "static/css/main.89404f70.chunk.css.map": "/url-shortner/static/css/main.89404f70.chunk.css.map",
+    "static/js/2.b2c86f81.chunk.js.LICENSE.txt": "/url-shortner/static/js/2.b2c86f81.chunk.js.LICENSE.txt",
+    "static/media/index.scss": "/url-shortner/static/media/PoiretOne-Regular.a453ae9b.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2374c629.js",
+    "static/css/2.847a128f.chunk.css",
+    "static/js/2.b2c86f81.chunk.js",
+    "static/css/main.89404f70.chunk.css",
+    "static/js/main.bf615a40.chunk.js"
+  ]
+}
